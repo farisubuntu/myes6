@@ -6,7 +6,7 @@
 3. when ready, do:
 
 ```bash
-$ pandoc es6.md -s -o index.html --template templates/default.html5 
+$ pandoc es6.md -s -o index.html --template templates/default.html5 --metadata title='ES6'
 --no-highlight
 ```
 
