@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ES6 - Notes</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+
+</head>
+<body>
+<h1 id="es6-cheatsheet">es6-cheatsheet</h1>
+<p>A cheatsheet containing ES2015 [ES6] tips, tricks, best practices and
+code snippet examples for your day to day workflow. Contributions are
+welcome!</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#var-versus-let--const">var versus let / const</a></li>
+<li><a href="#replacing-iifes-with-blocks">Replacing IIFEs with
+Blocks</a></li>
+<li><a href="#arrow-functions">Arrow Functions</a></li>
+<li><a href="#strings">Strings</a></li>
+<li><a href="#destructuring">Destructuring</a></li>
+<li><a href="#modules">Modules</a></li>
+<li><a href="#parameters">Parameters</a></li>
+<li><a href="#classes">Classes</a></li>
+<li><a href="#symbols">Symbols</a></li>
+<li><a href="#maps">Maps</a></li>
+<li><a href="#weakmaps">WeakMaps</a></li>
+<li><a href="#promises">Promises</a></li>
+<li><a href="#generators">Generators</a></li>
+<li><a href="#async-await">Async Await</a></li>
+<li><a href="#getter-and-setter-functions">Getter/Setter
+functions</a></li>
+</ul>
+<h2 id="var-versus-let-const">var versus let / const</h2>
+<blockquote>
+<p>Besides <code>var</code>, we now have access to two new identifiers
+for storing values —<code>let</code> and <code>const</code>. Unlike
+<code>var</code>, <code>let</code> and <code>const</code> statements are
+not hoisted to the top of their enclosing scope.</p>
+</blockquote>
+<p>An example of using <code>var</code>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> snack <span class="op">=</span> <span class="st">&#39;Meow Mix&#39;</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getFood</span>(food) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (food) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">var</span> snack <span class="op">=</span> <span class="st">&#39;Friskies&#39;</span><span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> snack<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> snack<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">getFood</span>(<span class="kw">false</span>)<span class="op">;</span> <span class="co">// undefined</span></span></code></pre></div>
+<p>However, observe what happens when we replace <code>var</code> using
+<code>let</code>:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> snack <span class="op">=</span> <span class="st">&#39;Meow Mix&#39;</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getFood</span>(food) {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (food) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> snack <span class="op">=</span> <span class="st">&#39;Friskies&#39;</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> snack<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> snack<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">getFood</span>(<span class="kw">false</span>)<span class="op">;</span> <span class="co">// &#39;Meow Mix&#39;</span></span></code></pre></div>
+<p>This change in behavior highlights that we need to be careful when
+refactoring legacy code which uses <code>var</code>. Blindly replacing
+instances of <code>var</code> with <code>let</code> may lead to
+unexpected behavior.</p>
+<blockquote>
+<p><strong>Note</strong>: <code>let</code> and <code>const</code> are
+block scoped. Therefore, referencing block-scoped identifiers before
+they are defined will produce a <code>ReferenceError</code>.</p>
+</blockquote>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(x)<span class="op">;</span> <span class="co">// ReferenceError: x is not defined</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x <span class="op">=</span> <span class="st">&#39;hi&#39;</span><span class="op">;</span></span></code></pre></div>
+<blockquote>
+<p><strong>Best Practice</strong>: Leave <code>var</code> declarations
+inside of legacy code to denote that it needs to be carefully
+refactored. When working on a new codebase, use <code>let</code> for
+variables that will change their value over time, and <code>const</code>
+for variables which cannot be reassigned.</p>
+</blockquote>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+<h2 id="replacing-iifes-with-blocks">Replacing IIFEs with Blocks</h2>
+<blockquote>
+<p>A common use of <strong>Immediately Invoked Function
+Expressions</strong> is to enclose values within its scope. In ES6, we
+now have the ability to create block-based scopes and therefore are not
+limited purely to function-based scope.</p>
+</blockquote>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">function</span> () {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> food <span class="op">=</span> <span class="st">&#39;Meow Mix&#39;</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>}())<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(food)<span class="op">;</span> <span class="co">// Reference Error</span></span></code></pre></div>
+<p>Using ES6 Blocks:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> food <span class="op">=</span> <span class="st">&#39;Meow Mix&#39;</span><span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(food)<span class="op">;</span> <span class="co">// Reference Error</span></span></code></pre></div>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+<h2 id="arrow-functions">Arrow Functions</h2>
+<p>Often times we have nested functions in which we would like to
+preserve the context of <code>this</code> from its lexical scope. An
+example is shown below:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Person</span>(name) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Person<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">prefixName</span> <span class="op">=</span> <span class="kw">function</span> (arr) {</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> arr<span class="op">.</span><span class="fu">map</span>(<span class="kw">function</span> (character) {</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> character<span class="op">;</span> <span class="co">// Cannot read property &#39;name&#39; of undefined</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<p>One common solution to this problem is to store the context of
+<code>this</code> using a variable:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Person</span>(name) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Person<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">prefixName</span> <span class="op">=</span> <span class="kw">function</span> (arr) {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> that <span class="op">=</span> <span class="kw">this</span><span class="op">;</span> <span class="co">// Store the context of this</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> arr<span class="op">.</span><span class="fu">map</span>(<span class="kw">function</span> (character) {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> that<span class="op">.</span><span class="at">name</span> <span class="op">+</span> character<span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<p>We can also pass in the proper context of <code>this</code>:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Person</span>(name) {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>Person<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">prefixName</span> <span class="op">=</span> <span class="kw">function</span> (arr) {</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> arr<span class="op">.</span><span class="fu">map</span>(<span class="kw">function</span> (character) {</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> character<span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span> <span class="kw">this</span>)<span class="op">;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<p>As well as bind the context:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Person</span>(name) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>Person<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">prefixName</span> <span class="op">=</span> <span class="kw">function</span> (arr) {</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> arr<span class="op">.</span><span class="fu">map</span>(<span class="kw">function</span> (character) {</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> character<span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    }<span class="op">.</span><span class="fu">bind</span>(<span class="kw">this</span>))<span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<p>Using <strong>Arrow Functions</strong>, the lexical value of
+<code>this</code> isn’t shadowed and we can re-write the above as
+shown:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Person</span>(name) {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>Person<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">prefixName</span> <span class="op">=</span> <span class="kw">function</span> (arr) {</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> arr<span class="op">.</span><span class="fu">map</span>(character <span class="kw">=&gt;</span> <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> character)<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<blockquote>
+<p><strong>Best Practice</strong>: Use <strong>Arrow Functions</strong>
+whenever you need to preserve the lexical value of
+<code>this</code>.</p>
+</blockquote>
+<p>Arrow Functions are also more concise when used in function
+expressions which simply return a value:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> squares <span class="op">=</span> arr<span class="op">.</span><span class="fu">map</span>(<span class="kw">function</span> (x) { <span class="cf">return</span> x <span class="op">*</span> x })<span class="op">;</span> <span class="co">// Function Expression</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> arr <span class="op">=</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> squares <span class="op">=</span> arr<span class="op">.</span><span class="fu">map</span>(x <span class="kw">=&gt;</span> x <span class="op">*</span> x)<span class="op">;</span> <span class="co">// Arrow Function for terser implementation</span></span></code></pre></div>
+<blockquote>
+<p><strong>Best Practice</strong>: Use <strong>Arrow Functions</strong>
+in place of function expressions when possible.</p>
+</blockquote>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+<h2 id="strings">Strings</h2>
+<p>With ES6, the standard library has grown immensely. Along with these
+changes are new methods which can be used on strings, such as
+<code>.includes()</code> and <code>.repeat()</code>.</p>
+<h3 id="includes">.includes( )</h3>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> string <span class="op">=</span> <span class="st">&#39;food&#39;</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> substring <span class="op">=</span> <span class="st">&#39;foo&#39;</span><span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(string<span class="op">.</span><span class="fu">indexOf</span>(substring) <span class="op">&gt;</span> <span class="op">-</span><span class="dv">1</span>)<span class="op">;</span></span></code></pre></div>
+<p>Instead of checking for a return value <code>&gt; -1</code> to denote
+string containment, we can simply use <code>.includes()</code> which
+will return a boolean:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> string <span class="op">=</span> <span class="st">&#39;food&#39;</span><span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> substring <span class="op">=</span> <span class="st">&#39;foo&#39;</span><span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(string<span class="op">.</span><span class="fu">includes</span>(substring))<span class="op">;</span> <span class="co">// true</span></span></code></pre></div>
+<h3 id="repeat">.repeat( )</h3>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">repeat</span>(string<span class="op">,</span> count) {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> strings <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span>(strings<span class="op">.</span><span class="at">length</span> <span class="op">&lt;</span> count) {</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        strings<span class="op">.</span><span class="fu">push</span>(string)<span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> strings<span class="op">.</span><span class="fu">join</span>(<span class="st">&#39;&#39;</span>)<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>In ES6, we now have access to a terser implementation:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">// String.repeat(numberOfRepetitions)</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;meow&#39;</span><span class="op">.</span><span class="fu">repeat</span>(<span class="dv">3</span>)<span class="op">;</span> <span class="co">// &#39;meowmeowmeow&#39;</span></span></code></pre></div>
+<h3 id="template-literals">Template Literals</h3>
+<p>Using <strong>Template Literals</strong>, we can now construct
+strings that have special characters in them without needing to escape
+them explicitly.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> text <span class="op">=</span> <span class="st">&quot;This string contains </span><span class="sc">\&quot;</span><span class="st">double quotes</span><span class="sc">\&quot;</span><span class="st"> which are escaped.&quot;</span><span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> text <span class="op">=</span> <span class="vs">`This string contains &quot;double quotes&quot; which don&#39;t need to be escaped anymore.`</span><span class="op">;</span></span></code></pre></div>
+<p><strong>Template Literals</strong> also support interpolation, which
+makes the task of concatenating strings and values:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> name <span class="op">=</span> <span class="st">&#39;Tiger&#39;</span><span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> age <span class="op">=</span> <span class="dv">13</span><span class="op">;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;My cat is named &#39;</span> <span class="op">+</span> name <span class="op">+</span> <span class="st">&#39; and is &#39;</span> <span class="op">+</span> age <span class="op">+</span> <span class="st">&#39; years old.&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>Much simpler:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> name <span class="op">=</span> <span class="st">&#39;Tiger&#39;</span><span class="op">;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> age <span class="op">=</span> <span class="dv">13</span><span class="op">;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`My cat is named </span><span class="sc">${</span>name<span class="sc">}</span><span class="vs"> and is </span><span class="sc">${</span>age<span class="sc">}</span><span class="vs"> years old.`</span>)<span class="op">;</span></span></code></pre></div>
+<p>In ES5, we handled new lines as follows:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> text <span class="op">=</span> (</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;cat</span><span class="sc">\n</span><span class="st">&#39;</span> <span class="op">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;dog</span><span class="sc">\n</span><span class="st">&#39;</span> <span class="op">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;nickelodeon&#39;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<p>Or:</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> text <span class="op">=</span> [</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;cat&#39;</span><span class="op">,</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;dog&#39;</span><span class="op">,</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;nickelodeon&#39;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>]<span class="op">.</span><span class="fu">join</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p><strong>Template Literals</strong> will preserve new lines for us
+without having to explicitly place them in:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> text <span class="op">=</span> ( <span class="vs">`cat</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="vs">dog</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="vs">nickelodeon`</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<p><strong>Template Literals</strong> can accept expressions, as
+well:</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> today <span class="op">=</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> text <span class="op">=</span> <span class="vs">`The time and date is </span><span class="sc">${</span>today<span class="op">.</span><span class="fu">toLocaleString</span>()<span class="sc">}</span><span class="vs">`</span><span class="op">;</span></span></code></pre></div>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+<h2 id="destructuring">Destructuring</h2>
+<p>Destructuring allows us to extract values from arrays and objects
+(even deeply nested) and store them in variables with a more convenient
+syntax.</p>
+<h3 id="destructuring-arrays">Destructuring Arrays</h3>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> arr <span class="op">=</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span>]<span class="op">;</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> a <span class="op">=</span> arr[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> b <span class="op">=</span> arr[<span class="dv">1</span>]<span class="op">;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> c <span class="op">=</span> arr[<span class="dv">2</span>]<span class="op">;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> d <span class="op">=</span> arr[<span class="dv">3</span>]<span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> [a<span class="op">,</span> b<span class="op">,</span> c<span class="op">,</span> d] <span class="op">=</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span>]<span class="op">;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(a)<span class="op">;</span> <span class="co">// 1</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(b)<span class="op">;</span> <span class="co">// 2</span></span></code></pre></div>
+<h3 id="destructuring-objects">Destructuring Objects</h3>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> luke <span class="op">=</span> { <span class="dt">occupation</span><span class="op">:</span> <span class="st">&#39;jedi&#39;</span><span class="op">,</span> <span class="dt">father</span><span class="op">:</span> <span class="st">&#39;anakin&#39;</span> }<span class="op">;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> occupation <span class="op">=</span> luke<span class="op">.</span><span class="at">occupation</span><span class="op">;</span> <span class="co">// &#39;jedi&#39;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> father <span class="op">=</span> luke<span class="op">.</span><span class="at">father</span><span class="op">;</span> <span class="co">// &#39;anakin&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> luke <span class="op">=</span> { <span class="dt">occupation</span><span class="op">:</span> <span class="st">&#39;jedi&#39;</span><span class="op">,</span> <span class="dt">father</span><span class="op">:</span> <span class="st">&#39;anakin&#39;</span> }<span class="op">;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> {occupation<span class="op">,</span> father} <span class="op">=</span> luke<span class="op">;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(occupation)<span class="op">;</span> <span class="co">// &#39;jedi&#39;</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(father)<span class="op">;</span> <span class="co">// &#39;anakin&#39;</span></span></code></pre></div>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+<h2 id="modules">Modules</h2>
+<p>Prior to ES6, we used libraries such as <a
+href="http://browserify.org/">Browserify</a> to create modules on the
+client-side, and <a
+href="https://nodejs.org/api/modules.html#modules_module_require_id">require</a>
+in <strong>Node.js</strong>. With ES6, we can now directly use modules
+of all types (AMD and CommonJS).</p>
+<h3 id="exporting-in-commonjs">Exporting in CommonJS</h3>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>module<span class="op">.</span><span class="at">exports</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>module<span class="op">.</span><span class="at">exports</span> <span class="op">=</span> { <span class="dt">foo</span><span class="op">:</span> <span class="st">&#39;bar&#39;</span> }<span class="op">;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>module<span class="op">.</span><span class="at">exports</span> <span class="op">=</span> [<span class="st">&#39;foo&#39;</span><span class="op">,</span> <span class="st">&#39;bar&#39;</span>]<span class="op">;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>module<span class="op">.</span><span class="at">exports</span> <span class="op">=</span> <span class="kw">function</span> <span class="fu">bar</span> () {}<span class="op">;</span></span></code></pre></div>
+<h3 id="exporting-in-es6">Exporting in ES6</h3>
+<p>With ES6, we have various flavors of exporting. We can perform
+<strong>Named Exports</strong>:</p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">let</span> name <span class="op">=</span> <span class="st">&#39;David&#39;</span><span class="op">;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">let</span> age  <span class="op">=</span> <span class="dv">25</span><span class="op">;</span>​​</span></code></pre></div>
+<p>As well as <strong>exporting a list</strong> of objects:</p>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sumTwo</span>(a<span class="op">,</span> b) {</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sumThree</span>(a<span class="op">,</span> b<span class="op">,</span> c) {</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b <span class="op">+</span> c<span class="op">;</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> { sumTwo<span class="op">,</span> sumThree }<span class="op">;</span></span></code></pre></div>
+<p>We can also export functions, objects and values (etc.) simply by
+using the <code>export</code> keyword:</p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">function</span> <span class="fu">sumTwo</span>(a<span class="op">,</span> b) {</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">function</span> <span class="fu">sumThree</span>(a<span class="op">,</span> b<span class="op">,</span> c) {</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b <span class="op">+</span> c<span class="op">;</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>And lastly, we can <strong>export default bindings</strong>:</p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sumTwo</span>(a<span class="op">,</span> b) {</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sumThree</span>(a<span class="op">,</span> b<span class="op">,</span> c) {</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b <span class="op">+</span> c<span class="op">;</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> api <span class="op">=</span> {</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    sumTwo<span class="op">,</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    sumThree</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> api<span class="op">;</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a><span class="co">/* Which is the same as</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a><span class="co"> * export { api as default };</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span></code></pre></div>
+<blockquote>
+<p><strong>Best Practices</strong>: Always use the
+<code>export default</code> method at <strong>the end</strong> of the
+module. It makes it clear what is being exported, and saves time by
+having to figure out what name a value was exported as. More so, the
+common practice in CommonJS modules is to export a single value or
+object. By sticking to this paradigm, we make our code easily readable
+and allow ourselves to interpolate between CommonJS and ES6 modules.</p>
+</blockquote>
+<h3 id="importing-in-es6">Importing in ES6</h3>
+<p>ES6 provides us with various flavors of importing. We can import an
+entire file:</p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="st">&#39;underscore&#39;</span><span class="op">;</span></span></code></pre></div>
+<blockquote>
+<p>It is important to note that simply <strong>importing an entire file
+will execute all code at the top level of that file</strong>.</p>
+</blockquote>
+<p>Similar to Python, we have named imports:</p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { sumTwo<span class="op">,</span> sumThree } <span class="im">from</span> <span class="st">&#39;math/addition&#39;</span><span class="op">;</span></span></code></pre></div>
+<p>We can also rename the named imports:</p>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> {</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    sumTwo <span class="im">as</span> addTwoNumbers<span class="op">,</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    sumThree <span class="im">as</span> sumThreeNumbers</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>} <span class="im">from</span> <span class="st">&#39;math/addition&#39;</span><span class="op">;</span></span></code></pre></div>
+<p>In addition, we can <strong>import all the things</strong> (also
+called namespace import):</p>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="op">*</span> <span class="im">as</span> util <span class="im">from</span> <span class="st">&#39;math/addition&#39;</span><span class="op">;</span></span></code></pre></div>
+<p>Lastly, we can import a list of values from a module:</p>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="op">*</span> <span class="im">as</span> additionUtil <span class="im">from</span> <span class="st">&#39;math/addition&#39;</span><span class="op">;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { sumTwo<span class="op">,</span> sumThree } <span class="op">=</span> additionUtil<span class="op">;</span></span></code></pre></div>
+<p>Importing from the default binding like this:</p>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> api <span class="im">from</span> <span class="st">&#39;math/addition&#39;</span><span class="op">;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Same as: import { default as api } from &#39;math/addition&#39;;</span></span></code></pre></div>
+<p>While it is better to keep the exports simple, but we can sometimes
+mix default import and mixed import if needed. When we are exporting
+like this:</p>
+<div class="sourceCode" id="cb40"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">// foos.js</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> { foo <span class="im">as</span> <span class="im">default</span><span class="op">,</span> foo1<span class="op">,</span> foo2 }<span class="op">;</span></span></code></pre></div>
+<p>We can import them like the following:</p>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> foo<span class="op">,</span> { foo1<span class="op">,</span> foo2 } <span class="im">from</span> <span class="st">&#39;foos&#39;</span><span class="op">;</span></span></code></pre></div>
+<p>When importing a module exported using commonjs syntax (such as
+React) we can do:</p>
+<div class="sourceCode" id="cb42"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> React <span class="im">from</span> <span class="st">&#39;react&#39;</span><span class="op">;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { Component<span class="op">,</span> PropTypes } <span class="op">=</span> React<span class="op">;</span></span></code></pre></div>
+<p>This can also be simplified further, using:</p>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> React<span class="op">,</span> { Component<span class="op">,</span> PropTypes } <span class="im">from</span> <span class="st">&#39;react&#39;</span><span class="op">;</span></span></code></pre></div>
+<blockquote>
+<p><strong>Note</strong>: Values that are exported are
+<strong>bindings</strong>, not references. Therefore, changing the
+binding of a variable in one module will affect the value within the
+exported module. Avoid changing the public interface of these exported
+values.</p>
+</blockquote>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+<h2 id="parameters">Parameters</h2>
+<p>In ES5, we had varying ways to handle functions which needed
+<strong>default values</strong>, <strong>indefinite arguments</strong>,
+and <strong>named parameters</strong>. With ES6, we can accomplish all
+of this and more using more concise syntax.</p>
+<h3 id="default-parameters">Default Parameters</h3>
+<div class="sourceCode" id="cb44"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">addTwoNumbers</span>(x<span class="op">,</span> y) {</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x <span class="op">||</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> y <span class="op">||</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">+</span> y<span class="op">;</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>In ES6, we can simply supply default values for parameters in a
+function:</p>
+<div class="sourceCode" id="cb45"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">addTwoNumbers</span>(x<span class="op">=</span><span class="dv">0</span><span class="op">,</span> y<span class="op">=</span><span class="dv">0</span>) {</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">+</span> y<span class="op">;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addTwoNumbers</span>(<span class="dv">2</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span> <span class="co">// 6</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">addTwoNumbers</span>(<span class="dv">2</span>)<span class="op">;</span> <span class="co">// 2</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">addTwoNumbers</span>()<span class="op">;</span> <span class="co">// 0</span></span></code></pre></div>
+<h3 id="rest-parameters">Rest Parameters</h3>
+<p>In ES5, we handled an indefinite number of arguments like so:</p>
+<div class="sourceCode" id="cb47"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">logArguments</span>() {</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">var</span> i<span class="op">=</span><span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="kw">arguments</span><span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">arguments</span>[i])<span class="op">;</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Using the <strong>rest</strong> operator, we can pass in an
+indefinite amount of arguments:</p>
+<div class="sourceCode" id="cb48"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">logArguments</span>(<span class="op">...</span>args) {</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> arg <span class="kw">of</span> args) {</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(arg)<span class="op">;</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="named-parameters">Named Parameters</h3>
+<p>One of the patterns in ES5 to handle named parameters was to use the
+<strong>options object</strong> pattern, adopted from jQuery.</p>
+<div class="sourceCode" id="cb49"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">initializeCanvas</span>(options) {</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> height <span class="op">=</span> options<span class="op">.</span><span class="at">height</span> <span class="op">||</span> <span class="dv">600</span><span class="op">;</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> width  <span class="op">=</span> options<span class="op">.</span><span class="at">width</span>  <span class="op">||</span> <span class="dv">400</span><span class="op">;</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> lineStroke <span class="op">=</span> options<span class="op">.</span><span class="at">lineStroke</span> <span class="op">||</span> <span class="st">&#39;black&#39;</span><span class="op">;</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>We can achieve the same functionality using destructuring as a formal
+parameter to a function:</p>
+<div class="sourceCode" id="cb50"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">initializeCanvas</span>(</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    { height<span class="op">=</span><span class="dv">600</span><span class="op">,</span> width<span class="op">=</span><span class="dv">400</span><span class="op">,</span> lineStroke<span class="op">=</span><span class="st">&#39;black&#39;</span>}) {</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Use variables height, width, lineStroke here</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div>
+<p>If we want to make the entire value optional, we can do so by
+destructuring an empty object:</p>
+<div class="sourceCode" id="cb51"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">initializeCanvas</span>(</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    { height<span class="op">=</span><span class="dv">600</span><span class="op">,</span> width<span class="op">=</span><span class="dv">400</span><span class="op">,</span> lineStroke<span class="op">=</span><span class="st">&#39;black&#39;</span>} <span class="op">=</span> {}) {</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ...</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div>
+<h3 id="spread-operator">Spread Operator</h3>
+<p>In ES5, we could find the max of values in an array by using the
+<code>apply</code> method on <code>Math.max</code> like this:</p>
+<div class="sourceCode" id="cb52"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Math</span><span class="op">.</span><span class="fu">max</span><span class="op">.</span><span class="fu">apply</span>(<span class="kw">null</span><span class="op">,</span> [<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">9001</span><span class="op">,</span> <span class="op">-</span><span class="dv">32</span>])<span class="op">;</span> <span class="co">// 9001</span></span></code></pre></div>
+<p>In ES6, we can now use the spread operator to pass an array of values
+to be used as parameters to a function:</p>
+<div class="sourceCode" id="cb53"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>[<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">9001</span><span class="op">,</span> <span class="op">-</span><span class="dv">32</span>])<span class="op">;</span> <span class="co">// 9001</span></span></code></pre></div>
+<p>We can concat array literals easily with this intuitive syntax:</p>
+<div class="sourceCode" id="cb54"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cities <span class="op">=</span> [<span class="st">&#39;San Francisco&#39;</span><span class="op">,</span> <span class="st">&#39;Los Angeles&#39;</span>]<span class="op">;</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> places <span class="op">=</span> [<span class="st">&#39;Miami&#39;</span><span class="op">,</span> <span class="op">...</span>cities<span class="op">,</span> <span class="st">&#39;Chicago&#39;</span>]<span class="op">;</span> <span class="co">// [&#39;Miami&#39;, &#39;San Francisco&#39;, &#39;Los Angeles&#39;, &#39;Chicago&#39;]</span></span></code></pre></div>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+<h2 id="classes">Classes</h2>
+<p>Prior to ES6, we implemented Classes by creating a constructor
+function and adding properties by extending the prototype:</p>
+<div class="sourceCode" id="cb55"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Person</span>(name<span class="op">,</span> age<span class="op">,</span> gender) {</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">name</span>   <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">age</span>    <span class="op">=</span> age<span class="op">;</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">gender</span> <span class="op">=</span> gender<span class="op">;</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>Person<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">incrementAge</span> <span class="op">=</span> <span class="kw">function</span> () {</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="at">age</span> <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<p>And created extended classes by the following:</p>
+<div class="sourceCode" id="cb56"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">Personal</span>(name<span class="op">,</span> age<span class="op">,</span> gender<span class="op">,</span> occupation<span class="op">,</span> hobby) {</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    Person<span class="op">.</span><span class="fu">call</span>(<span class="kw">this</span><span class="op">,</span> name<span class="op">,</span> age<span class="op">,</span> gender)<span class="op">;</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">occupation</span> <span class="op">=</span> occupation<span class="op">;</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">hobby</span> <span class="op">=</span> hobby<span class="op">;</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>Personal<span class="op">.</span><span class="at">prototype</span> <span class="op">=</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">create</span>(Person<span class="op">.</span><span class="at">prototype</span>)<span class="op">;</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>Personal<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">constructor</span> <span class="op">=</span> Personal<span class="op">;</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>Personal<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">incrementAge</span> <span class="op">=</span> <span class="kw">function</span> () {</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>    Person<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">incrementAge</span><span class="op">.</span><span class="fu">call</span>(<span class="kw">this</span>)<span class="op">;</span></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">age</span> <span class="op">+=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">age</span>)<span class="op">;</span></span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<p>ES6 provides much needed syntactic sugar for doing this under the
+hood. We can create Classes directly:</p>
+<div class="sourceCode" id="cb57"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Person {</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>(name<span class="op">,</span> age<span class="op">,</span> gender) {</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">name</span>   <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">age</span>    <span class="op">=</span> age<span class="op">;</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">gender</span> <span class="op">=</span> gender<span class="op">;</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">incrementAge</span>() {</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">age</span> <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>And extend them using the <code>extends</code> keyword:</p>
+<div class="sourceCode" id="cb58"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Personal <span class="kw">extends</span> Person {</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>(name<span class="op">,</span> age<span class="op">,</span> gender<span class="op">,</span> occupation<span class="op">,</span> hobby) {</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span>(name<span class="op">,</span> age<span class="op">,</span> gender)<span class="op">;</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">occupation</span> <span class="op">=</span> occupation<span class="op">;</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">hobby</span> <span class="op">=</span> hobby<span class="op">;</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">incrementAge</span>() {</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span><span class="op">.</span><span class="fu">incrementAge</span>()<span class="op">;</span></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">age</span> <span class="op">+=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">age</span>)<span class="op">;</span></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<blockquote>
+<p><strong>Best Practice</strong>: While the syntax for creating classes
+in ES6 obscures how implementation and prototypes work under the hood,
+it is a good feature for beginners and allows us to write cleaner
+code.</p>
+</blockquote>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+<h2 id="symbols">Symbols</h2>
+<p>Symbols have existed prior to ES6, but now we have a public interface
+to using them directly. Symbols are immutable and unique and can be used
+as keys in any hash.</p>
+<h3 id="symbol">Symbol( )</h3>
+<p>Calling <code>Symbol()</code> or <code>Symbol(description)</code>
+will create a unique symbol that cannot be looked up globally. A Use
+case for <code>Symbol()</code> is to patch objects or namespaces from
+third parties with your own logic, but be confident that you won’t
+collide with updates to that library. For example, if you wanted to add
+a method <code>refreshComponent</code> to the
+<code>React.Component</code> class, and be certain that you didn’t
+trample a method they add in a later update:</p>
+<div class="sourceCode" id="cb59"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> refreshComponent <span class="op">=</span> <span class="bu">Symbol</span>()<span class="op">;</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>React<span class="op">.</span><span class="at">Component</span><span class="op">.</span><span class="at">prototype</span>[refreshComponent] <span class="op">=</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// do something</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="symbol.forkey">Symbol.for(key)</h3>
+<p><code>Symbol.for(key)</code> will create a Symbol that is still
+immutable and unique, but can be looked up globally. Two identical calls
+to <code>Symbol.for(key)</code> will return the same Symbol instance.
+NOTE: This is not true for <code>Symbol(description)</code>:</p>
+<div class="sourceCode" id="cb60"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Symbol</span>(<span class="st">&#39;foo&#39;</span>) <span class="op">===</span> <span class="bu">Symbol</span>(<span class="st">&#39;foo&#39;</span>) <span class="co">// false</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Symbol</span><span class="op">.</span><span class="fu">for</span>(<span class="st">&#39;foo&#39;</span>) <span class="op">===</span> <span class="bu">Symbol</span>(<span class="st">&#39;foo&#39;</span>) <span class="co">// false</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="bu">Symbol</span><span class="op">.</span><span class="fu">for</span>(<span class="st">&#39;foo&#39;</span>) <span class="op">===</span> <span class="bu">Symbol</span><span class="op">.</span><span class="fu">for</span>(<span class="st">&#39;foo&#39;</span>) <span class="co">// true</span></span></code></pre></div>
+<p>A common use case for Symbols, and in particular with
+<code>Symbol.for(key)</code> is for interoperability. This can be
+achieved by having your code look for a Symbol member on object
+arguments from third parties that contain some known interface. For
+example:</p>
+<div class="sourceCode" id="cb61"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">reader</span>(obj) {</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> specialRead <span class="op">=</span> <span class="bu">Symbol</span><span class="op">.</span><span class="fu">for</span>(<span class="st">&#39;specialRead&#39;</span>)<span class="op">;</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (obj[specialRead]) {</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> reader <span class="op">=</span> obj[specialRead]()<span class="op">;</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// do something with reader</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">TypeError</span>(<span class="st">&#39;object cannot be read&#39;</span>)<span class="op">;</span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>And then in another library:</p>
+<div class="sourceCode" id="cb62"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> specialRead <span class="op">=</span> <span class="bu">Symbol</span><span class="op">.</span><span class="fu">for</span>(<span class="st">&#39;specialRead&#39;</span>)<span class="op">;</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SomeReadableType {</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>    [specialRead]() {</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> reader <span class="op">=</span> <span class="fu">createSomeReaderFrom</span>(<span class="kw">this</span>)<span class="op">;</span></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> reader<span class="op">;</span></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<blockquote>
+<p>A notable example of Symbol use for interoperability is
+<code>Symbol.iterator</code> which exists on all iterable types in ES6:
+Arrays, strings, generators, etc. When called as a method it returns an
+object with an Iterator interface.</p>
+</blockquote>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+<h2 id="maps">Maps</h2>
+<p><strong>Maps</strong> is a much needed data structure in JavaScript.
+Prior to ES6, we created <strong>hash</strong> maps through objects:</p>
+<div class="sourceCode" id="cb63"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> map <span class="op">=</span> <span class="kw">new</span> <span class="bu">Object</span>()<span class="op">;</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>map[key1] <span class="op">=</span> <span class="st">&#39;value1&#39;</span><span class="op">;</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>map[key2] <span class="op">=</span> <span class="st">&#39;value2&#39;</span><span class="op">;</span></span></code></pre></div>
+<p>However, this does not protect us from accidentally overriding
+functions with specific property names:</p>
+<div class="sourceCode" id="cb64"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="fu">getOwnProperty</span>({ <span class="dt">hasOwnProperty</span><span class="op">:</span> <span class="st">&#39;Hah, overwritten&#39;</span>}<span class="op">,</span> <span class="st">&#39;Pwned&#39;</span>)<span class="op">;</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="bu">TypeError</span><span class="op">:</span> Property <span class="st">&#39;hasOwnProperty&#39;</span> is not a <span class="kw">function</span></span></code></pre></div>
+<p>Actual <strong>Maps</strong> allow us to <code>set</code>,
+<code>get</code> and <code>search</code> for values (and much more).</p>
+<div class="sourceCode" id="cb65"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> map <span class="op">=</span> <span class="kw">new</span> <span class="bu">Map</span>()<span class="op">;</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> map<span class="op">.</span><span class="fu">set</span>(<span class="st">&#39;name&#39;</span><span class="op">,</span> <span class="st">&#39;david&#39;</span>)<span class="op">;</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> map<span class="op">.</span><span class="fu">get</span>(<span class="st">&#39;name&#39;</span>)<span class="op">;</span> <span class="co">// david</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> map<span class="op">.</span><span class="fu">has</span>(<span class="st">&#39;name&#39;</span>)<span class="op">;</span> <span class="co">// true</span></span></code></pre></div>
+<p>The most amazing part of Maps is that we are no longer limited to
+just using strings. We can now use any type as a key, and it will not be
+type-cast to a string.</p>
+<div class="sourceCode" id="cb66"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> map <span class="op">=</span> <span class="kw">new</span> <span class="bu">Map</span>([</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">&#39;name&#39;</span><span class="op">,</span> <span class="st">&#39;david&#39;</span>]<span class="op">,</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    [<span class="kw">true</span><span class="op">,</span> <span class="st">&#39;false&#39;</span>]<span class="op">,</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span><span class="op">,</span> <span class="st">&#39;one&#39;</span>]<span class="op">,</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>    [{}<span class="op">,</span> <span class="st">&#39;object&#39;</span>]<span class="op">,</span></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>    [<span class="kw">function</span> () {}<span class="op">,</span> <span class="st">&#39;function&#39;</span>]</span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>])<span class="op">;</span></span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> key <span class="kw">of</span> map<span class="op">.</span><span class="fu">keys</span>()) {</span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">typeof</span> key)<span class="op">;</span></span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// &gt; string, boolean, number, object, function</span></span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<blockquote>
+<p><strong>Note</strong>: Using non-primitive values such as functions
+or objects won’t work when testing equality using methods such as
+<code>map.get()</code>. As such, stick to primitive values such as
+Strings, Booleans and Numbers.</p>
+</blockquote>
+<p>We can also iterate over maps using <code>.entries()</code>:</p>
+<div class="sourceCode" id="cb67"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> [key<span class="op">,</span> value] <span class="kw">of</span> map<span class="op">.</span><span class="fu">entries</span>()) {</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(key<span class="op">,</span> value)<span class="op">;</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+<h2 id="weakmaps">WeakMaps</h2>
+<p>In order to store private data versions &lt; ES6, we had various ways
+of doing this. One such method was using naming conventions:</p>
+<div class="sourceCode" id="cb68"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Person {</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>(age) {</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">_age</span> <span class="op">=</span> age<span class="op">;</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">_incrementAge</span>() {</span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">_age</span> <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>But naming conventions can cause confusion in a codebase and are not
+always going to be upheld. Instead, we can use WeakMaps to store our
+values:</p>
+<div class="sourceCode" id="cb69"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> _age <span class="op">=</span> <span class="kw">new</span> <span class="bu">WeakMap</span>()<span class="op">;</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Person {</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>(age) {</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>        _age<span class="op">.</span><span class="fu">set</span>(<span class="kw">this</span><span class="op">,</span> age)<span class="op">;</span></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">incrementAge</span>() {</span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> age <span class="op">=</span> _age<span class="op">.</span><span class="fu">get</span>(<span class="kw">this</span>) <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>        _age<span class="op">.</span><span class="fu">set</span>(<span class="kw">this</span><span class="op">,</span> age)<span class="op">;</span></span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (age <span class="op">&gt;</span> <span class="dv">50</span>) {</span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>            <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Midlife crisis&#39;</span>)<span class="op">;</span></span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>The cool thing about using WeakMaps to store our private data is that
+their keys do not give away the property names, which can be seen by
+using <code>Reflect.ownKeys()</code>:</p>
+<div class="sourceCode" id="cb70"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="kw">const</span> person <span class="op">=</span> <span class="kw">new</span> <span class="fu">Person</span>(<span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> person<span class="op">.</span><span class="fu">incrementAge</span>()<span class="op">;</span> <span class="co">// &#39;Midlife crisis&#39;</span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="bu">Reflect</span><span class="op">.</span><span class="fu">ownKeys</span>(person)<span class="op">;</span> <span class="co">// []</span></span></code></pre></div>
+<p>A more practical example of using WeakMaps is to store data which is
+associated to a DOM element without having to pollute the DOM
+itself:</p>
+<div class="sourceCode" id="cb71"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> map <span class="op">=</span> <span class="kw">new</span> <span class="bu">WeakMap</span>()<span class="op">;</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> el  <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;someElement&#39;</span>)<span class="op">;</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Store a weak reference to the element with a key</span></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>map<span class="op">.</span><span class="fu">set</span>(el<span class="op">,</span> <span class="st">&#39;reference&#39;</span>)<span class="op">;</span></span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Access the value of the element</span></span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> value <span class="op">=</span> map<span class="op">.</span><span class="fu">get</span>(el)<span class="op">;</span> <span class="co">// &#39;reference&#39;</span></span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a><span class="co">// Remove the reference</span></span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>el<span class="op">.</span><span class="at">parentNode</span><span class="op">.</span><span class="fu">removeChild</span>(el)<span class="op">;</span></span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a>el <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a><span class="co">// map is empty, since the element is destroyed</span></span></code></pre></div>
+<p>As shown above, once the object is destroyed by the garbage
+collector, the WeakMap will automatically remove the key-value pair
+which was identified by that object.</p>
+<blockquote>
+<p><strong>Note</strong>: To further illustrate the usefulness of this
+example, consider how jQuery stores a cache of objects corresponding to
+DOM elements which have references. Using WeakMaps, jQuery can
+automatically free up any memory that was associated with a particular
+DOM element once it has been removed from the document. In general,
+WeakMaps are very useful for any library that wraps DOM elements.</p>
+</blockquote>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+<h2 id="promises">Promises</h2>
+<p>Promises allow us to turn our horizontal code (callback hell):</p>
+<div class="sourceCode" id="cb72"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">func1</span>(<span class="kw">function</span> (value1) {</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">func2</span>(value1<span class="op">,</span> <span class="kw">function</span> (value2) {</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">func3</span>(value2<span class="op">,</span> <span class="kw">function</span> (value3) {</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">func4</span>(value3<span class="op">,</span> <span class="kw">function</span> (value4) {</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">func5</span>(value4<span class="op">,</span> <span class="kw">function</span> (value5) {</span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>                    <span class="co">// Do something with value 5</span></span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>                })<span class="op">;</span></span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>            })<span class="op">;</span></span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a>        })<span class="op">;</span></span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb72-11"><a href="#cb72-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>Into vertical code:</p>
+<div class="sourceCode" id="cb73"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">func1</span>(value1)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">then</span>(func2)</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">then</span>(func3)</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">then</span>(func4)</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">then</span>(func5<span class="op">,</span> value5 <span class="kw">=&gt;</span> {</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Do something with value 5</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span></code></pre></div>
+<p>Prior to ES6, we used <a
+href="https://github.com/petkaantonov/bluebird">bluebird</a> or <a
+href="https://github.com/kriskowal/q">Q</a>. Now we have Promises
+natively:</p>
+<div class="sourceCode" id="cb74"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="kw">new</span> <span class="bu">Promise</span>((resolve<span class="op">,</span> reject) <span class="kw">=&gt;</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">reject</span>(<span class="kw">new</span> <span class="bu">Error</span>(<span class="st">&#39;Failed to fulfill Promise&#39;</span>)))</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">catch</span>(reason <span class="kw">=&gt;</span> <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(reason))<span class="op">;</span></span></code></pre></div>
+<p>Where we have two handlers, <strong>resolve</strong> (a function
+called when the Promise is <strong>fulfilled</strong>) and
+<strong>reject</strong> (a function called when the Promise is
+<strong>rejected</strong>).</p>
+<blockquote>
+<p><strong>Benefits of Promises</strong>: Error Handling using a bunch
+of nested callbacks can get chaotic. Using Promises, we have a clear
+path to bubbling errors up and handling them appropriately. Moreover,
+the value of a Promise after it has been resolved/rejected is immutable
+- it will never change.</p>
+</blockquote>
+<p>Here is a practical example of using Promises:</p>
+<div class="sourceCode" id="cb75"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> request <span class="op">=</span> <span class="pp">require</span>(<span class="st">&#39;request&#39;</span>)<span class="op">;</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve<span class="op">,</span> reject) <span class="kw">=&gt;</span> {</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>  request<span class="op">.</span><span class="fu">get</span>(url<span class="op">,</span> (error<span class="op">,</span> response<span class="op">,</span> body) <span class="kw">=&gt;</span> {</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (body) {</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">resolve</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(body))<span class="op">;</span></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">resolve</span>({})<span class="op">;</span></span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>We can also <strong>parallelize</strong> Promises to handle an array
+of asynchronous operations by using <code>Promise.all()</code>:</p>
+<div class="sourceCode" id="cb76"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> urls <span class="op">=</span> [</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;/api/commits&#39;</span><span class="op">,</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;/api/issues/opened&#39;</span><span class="op">,</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;/api/issues/assigned&#39;</span><span class="op">,</span></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;/api/issues/completed&#39;</span><span class="op">,</span></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;/api/issues/comments&#39;</span><span class="op">,</span></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;/api/pullrequests&#39;</span></span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> promises <span class="op">=</span> urls<span class="op">.</span><span class="fu">map</span>((url) <span class="kw">=&gt;</span> {</span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve<span class="op">,</span> reject) <span class="kw">=&gt;</span> {</span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>    $<span class="op">.</span><span class="fu">ajax</span>({ <span class="dt">url</span><span class="op">:</span> url })</span>
+<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">done</span>((data) <span class="kw">=&gt;</span> {</span>
+<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">resolve</span>(data)<span class="op">;</span></span>
+<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>      })<span class="op">;</span></span>
+<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb76-18"><a href="#cb76-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-19"><a href="#cb76-19" aria-hidden="true" tabindex="-1"></a><span class="bu">Promise</span><span class="op">.</span><span class="fu">all</span>(promises)</span>
+<span id="cb76-20"><a href="#cb76-20" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">then</span>((results) <span class="kw">=&gt;</span> {</span>
+<span id="cb76-21"><a href="#cb76-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Do something with results of all our promises</span></span>
+<span id="cb76-22"><a href="#cb76-22" aria-hidden="true" tabindex="-1"></a> })<span class="op">;</span></span></code></pre></div>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+<h2 id="generators">Generators</h2>
+<p>Similar to how <a
+href="https://github.com/DrkSephy/es6-cheatsheet#promises">Promises</a>
+allow us to avoid <a href="http://callbackhell.com/">callback hell</a>,
+Generators allow us to flatten our code - giving our asynchronous code a
+synchronous feel. Generators are essentially functions which we can <a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield">pause
+their execution</a> and subsequently return the value of an
+expression.</p>
+<p>A simple example of using generators is shown below:</p>
+<div class="sourceCode" id="cb77"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="op">*</span> <span class="fu">sillyGenerator</span>() {</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">yield</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">yield</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">yield</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">yield</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> generator <span class="op">=</span> <span class="fu">sillyGenerator</span>()<span class="op">;</span></span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(generator<span class="op">.</span><span class="fu">next</span>())<span class="op">;</span> <span class="co">// { value: 1, done: false }</span></span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(generator<span class="op">.</span><span class="fu">next</span>())<span class="op">;</span> <span class="co">// { value: 2, done: false }</span></span>
+<span id="cb77-11"><a href="#cb77-11" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(generator<span class="op">.</span><span class="fu">next</span>())<span class="op">;</span> <span class="co">// { value: 3, done: false }</span></span>
+<span id="cb77-12"><a href="#cb77-12" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(generator<span class="op">.</span><span class="fu">next</span>())<span class="op">;</span> <span class="co">// { value: 4, done: false }</span></span></code></pre></div>
+<p>Where <a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/next">next</a>
+will allow us to push our generator forward and evaluate a new
+expression. While the above example is extremely contrived, we can
+utilize Generators to write asynchronous code in a synchronous
+manner:</p>
+<div class="sourceCode" id="cb78"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Hiding asynchronousity with Generators</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">request</span>(url) {</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">getJSON</span>(url<span class="op">,</span> <span class="kw">function</span>(response) {</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>        generator<span class="op">.</span><span class="fu">next</span>(response)<span class="op">;</span></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>And here we write a generator function that will return our data:</p>
+<div class="sourceCode" id="cb79"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="op">*</span> <span class="fu">getData</span>() {</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> entry1 <span class="op">=</span> <span class="kw">yield</span> <span class="fu">request</span>(<span class="st">&#39;http://some_api/item1&#39;</span>)<span class="op">;</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> data1  <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(entry1)<span class="op">;</span></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> entry2 <span class="op">=</span> <span class="kw">yield</span> <span class="fu">request</span>(<span class="st">&#39;http://some_api/item2&#39;</span>)<span class="op">;</span></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> data2  <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(entry2)<span class="op">;</span></span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>By the power of <code>yield</code>, we are guaranteed that
+<code>entry1</code> will have the data needed to be parsed and stored in
+<code>data1</code>.</p>
+<p>While generators allow us to write asynchronous code in a synchronous
+manner, there is no clear and easy path for error propagation. As such,
+as we can augment our generator with Promises:</p>
+<div class="sourceCode" id="cb80"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">request</span>(url) {</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve<span class="op">,</span> reject) <span class="kw">=&gt;</span> {</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">getJSON</span>(url<span class="op">,</span> resolve)<span class="op">;</span></span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>And we write a function which will step through our generator using
+<code>next</code> which in turn will utilize our <code>request</code>
+method above to yield a Promise:</p>
+<div class="sourceCode" id="cb81"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">iterateGenerator</span>(gen) {</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> generator <span class="op">=</span> <span class="fu">gen</span>()<span class="op">;</span></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">function</span> <span class="fu">iterate</span>(val) {</span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">var</span> ret <span class="op">=</span> generator<span class="op">.</span><span class="fu">next</span>()<span class="op">;</span></span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(<span class="op">!</span>ret<span class="op">.</span><span class="at">done</span>) {</span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>            ret<span class="op">.</span><span class="at">value</span><span class="op">.</span><span class="fu">then</span>(iterate)<span class="op">;</span></span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb81-8"><a href="#cb81-8" aria-hidden="true" tabindex="-1"></a>    })()<span class="op">;</span></span>
+<span id="cb81-9"><a href="#cb81-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>By augmenting our Generator with Promises, we have a clear way of
+propagating errors through the use of our Promise <code>.catch</code>
+and <code>reject</code>. To use our newly augmented Generator, it is as
+simple as before:</p>
+<div class="sourceCode" id="cb82"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">iterateGenerator</span>(<span class="kw">function</span><span class="op">*</span> <span class="fu">getData</span>() {</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> entry1 <span class="op">=</span> <span class="kw">yield</span> <span class="fu">request</span>(<span class="st">&#39;http://some_api/item1&#39;</span>)<span class="op">;</span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> data1  <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(entry1)<span class="op">;</span></span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> entry2 <span class="op">=</span> <span class="kw">yield</span> <span class="fu">request</span>(<span class="st">&#39;http://some_api/item2&#39;</span>)<span class="op">;</span></span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> data2  <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(entry2)<span class="op">;</span></span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>We were able to reuse our implementation to use our Generator as
+before, which shows their power. While Generators and Promises allow us
+to write asynchronous code in a synchronous manner while retaining the
+ability to propagate errors in a nice way, we can actually begin to
+utilize a simpler construction that provides the same benefits: <a
+href="https://github.com/DrkSephy/es6-cheatsheet#async-await">async-await</a>.</p>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+<h2 id="async-await">Async Await</h2>
+<p>While this is actually an upcoming ES2016 feature,
+<code>async await</code> allows us to perform the same thing we
+accomplished using Generators and Promises with less effort:</p>
+<div class="sourceCode" id="cb83"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> request <span class="op">=</span> <span class="pp">require</span>(<span class="st">&#39;request&#39;</span>)<span class="op">;</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getJSON</span>(url) {</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">new</span> <span class="bu">Promise</span>(<span class="kw">function</span>(resolve<span class="op">,</span> reject) {</span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">request</span>(url<span class="op">,</span> <span class="kw">function</span>(error<span class="op">,</span> response<span class="op">,</span> body) {</span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">resolve</span>(body)<span class="op">;</span></span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb83-10"><a href="#cb83-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-11"><a href="#cb83-11" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">main</span>() {</span>
+<span id="cb83-12"><a href="#cb83-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> data <span class="op">=</span> <span class="cf">await</span> <span class="fu">getJSON</span>()<span class="op">;</span></span>
+<span id="cb83-13"><a href="#cb83-13" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(data)<span class="op">;</span> <span class="co">// NOT undefined!</span></span>
+<span id="cb83-14"><a href="#cb83-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb83-15"><a href="#cb83-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-16"><a href="#cb83-16" aria-hidden="true" tabindex="-1"></a><span class="fu">main</span>()<span class="op">;</span></span></code></pre></div>
+<p>Under the hood, it performs similarly to Generators. I highly
+recommend using them over Generators + Promises. A great resource for
+getting up and running with ES7 and Babel can be found <a
+href="http://masnun.com/2015/11/11/using-es7-asyncawait-today-with-babel.html">here</a>.</p>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup> ## Getter and setter functions</p>
+<p>ES6 has started supporting getter and setter functions within
+classes. Using the following example:</p>
+<div class="sourceCode" id="cb84"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Employee {</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>(name) {</span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">_name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>    get <span class="fu">name</span>() {</span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(<span class="kw">this</span><span class="op">.</span><span class="at">_name</span>) {</span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">&#39;Mr. &#39;</span> <span class="op">+</span> <span class="kw">this</span><span class="op">.</span><span class="at">_name</span><span class="op">.</span><span class="fu">toUpperCase</span>()<span class="op">;</span>  </span>
+<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb84-11"><a href="#cb84-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">undefined</span><span class="op">;</span></span>
+<span id="cb84-12"><a href="#cb84-12" aria-hidden="true" tabindex="-1"></a>      }  </span>
+<span id="cb84-13"><a href="#cb84-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb84-14"><a href="#cb84-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-15"><a href="#cb84-15" aria-hidden="true" tabindex="-1"></a>    set <span class="fu">name</span>(newName) {</span>
+<span id="cb84-16"><a href="#cb84-16" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (newName <span class="op">==</span> <span class="kw">this</span><span class="op">.</span><span class="at">_name</span>) {</span>
+<span id="cb84-17"><a href="#cb84-17" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;I already have this name.&#39;</span>)<span class="op">;</span></span>
+<span id="cb84-18"><a href="#cb84-18" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> <span class="cf">if</span> (newName) {</span>
+<span id="cb84-19"><a href="#cb84-19" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">_name</span> <span class="op">=</span> newName<span class="op">;</span></span>
+<span id="cb84-20"><a href="#cb84-20" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb84-21"><a href="#cb84-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb84-22"><a href="#cb84-22" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb84-23"><a href="#cb84-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb84-24"><a href="#cb84-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb84-25"><a href="#cb84-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-26"><a href="#cb84-26" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> emp <span class="op">=</span> <span class="kw">new</span> <span class="fu">Employee</span>(<span class="st">&quot;James Bond&quot;</span>)<span class="op">;</span></span>
+<span id="cb84-27"><a href="#cb84-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-28"><a href="#cb84-28" aria-hidden="true" tabindex="-1"></a><span class="co">// uses the get method in the background</span></span>
+<span id="cb84-29"><a href="#cb84-29" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (emp<span class="op">.</span><span class="at">name</span>) {</span>
+<span id="cb84-30"><a href="#cb84-30" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(emp<span class="op">.</span><span class="at">name</span>)<span class="op">;</span>  <span class="co">// Mr. JAMES BOND</span></span>
+<span id="cb84-31"><a href="#cb84-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb84-32"><a href="#cb84-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-33"><a href="#cb84-33" aria-hidden="true" tabindex="-1"></a><span class="co">// uses the setter in the background</span></span>
+<span id="cb84-34"><a href="#cb84-34" aria-hidden="true" tabindex="-1"></a>emp<span class="op">.</span><span class="at">name</span> <span class="op">=</span> <span class="st">&quot;Bond 007&quot;</span><span class="op">;</span></span>
+<span id="cb84-35"><a href="#cb84-35" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(emp<span class="op">.</span><span class="at">name</span>)<span class="op">;</span>  <span class="co">// Mr. BOND 007  </span></span></code></pre></div>
+<p>Latest browsers are also supporting getter/setter functions in
+Objects and we can use them for computed properties, adding listeners
+and preprocessing before setting/getting:</p>
+<div class="sourceCode" id="cb85"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> person <span class="op">=</span> {</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">firstName</span><span class="op">:</span> <span class="st">&#39;James&#39;</span><span class="op">,</span></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">lastName</span><span class="op">:</span> <span class="st">&#39;Bond&#39;</span><span class="op">,</span></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>  get <span class="fu">fullName</span>() {</span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Getting FullName&#39;</span>)<span class="op">;</span></span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="at">firstName</span> <span class="op">+</span> <span class="st">&#39; &#39;</span> <span class="op">+</span> <span class="kw">this</span><span class="op">.</span><span class="at">lastName</span><span class="op">;</span></span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>  set <span class="fu">fullName</span> (name) {</span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Setting FullName&#39;</span>)<span class="op">;</span></span>
+<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>      <span class="kw">var</span> words <span class="op">=</span> name<span class="op">.</span><span class="fu">toString</span>()<span class="op">.</span><span class="fu">split</span>(<span class="st">&#39; &#39;</span>)<span class="op">;</span></span>
+<span id="cb85-11"><a href="#cb85-11" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">firstName</span> <span class="op">=</span> words[<span class="dv">0</span>] <span class="op">||</span> <span class="st">&#39;&#39;</span><span class="op">;</span></span>
+<span id="cb85-12"><a href="#cb85-12" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">lastName</span> <span class="op">=</span> words[<span class="dv">1</span>] <span class="op">||</span> <span class="st">&#39;&#39;</span><span class="op">;</span></span>
+<span id="cb85-13"><a href="#cb85-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb85-14"><a href="#cb85-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb85-15"><a href="#cb85-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-16"><a href="#cb85-16" aria-hidden="true" tabindex="-1"></a>person<span class="op">.</span><span class="at">fullName</span><span class="op">;</span> <span class="co">// James Bond</span></span>
+<span id="cb85-17"><a href="#cb85-17" aria-hidden="true" tabindex="-1"></a>person<span class="op">.</span><span class="at">fullName</span> <span class="op">=</span> <span class="st">&#39;Bond 007&#39;</span><span class="op">;</span></span>
+<span id="cb85-18"><a href="#cb85-18" aria-hidden="true" tabindex="-1"></a>person<span class="op">.</span><span class="at">fullName</span><span class="op">;</span> <span class="co">// Bond 007</span></span></code></pre></div>
+<p><sup><a href="#table-of-contents">(back to table of
+contents)</a></sup></p>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -4,7 +4,13 @@
 2. fix / add / modify `es-6.md`
 3. when ready, do:
 
-```shell
-$ pandoc -s --template templates/default.html5 -o index.html
+```bash
+$ pandoc es6.md -s -o index.html --template templates/default.html5 --highlight-style themes/my.breezedark.theme 
 ```
 
+> `XXX` any theme inside themes/ folder.
+
+**related to pandoc:**
+
+
+- custom styles by generate a `json` file my.theme: [https://pandoc.org/chunkedhtml-demo/13-syntax-highlighting.html](https://pandoc.org/chunkedhtml-demo/13-syntax-highlighting.html)
