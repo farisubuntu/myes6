@@ -1,14 +1,16 @@
 # Quick modification:
 
+
 1. checkout to `gh-pages` branch
 2. fix / add / modify `es-6.md`
 3. when ready, do:
 
 ```bash
-$ pandoc es6.md -s -o index.html --template templates/default.html5 --highlight-style themes/my.breezedark.theme 
+$ pandoc es6.md -s -o index.html --template templates/default.html5 
+--no-highlight
 ```
 
-> `XXX` any theme inside themes/ folder.
+> add your custom styles in `custom.css` 
 
 **related to pandoc:**
 
