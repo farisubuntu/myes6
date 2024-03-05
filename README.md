@@ -7,7 +7,7 @@
 
 ```bash
 $ pandoc es6.md -s -o index.html --template templates/default.html5 --metadata title='ES6'
---no-highlight
+
 ```
 
 > add your custom styles in `custom.css` 
